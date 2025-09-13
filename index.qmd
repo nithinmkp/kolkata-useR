@@ -1,0 +1,201 @@
+---
+title: "Dynamic Documents with Quarto and purrr"
+author: 
+  - name: Nithin M
+    institute: Kerala agricultural University 
+format:
+  metropolis-revealjs:
+    theme: [styles.scss]
+    slide-number: true
+    chalkboard: true
+    highlight-style: github
+    multiplex: false
+    preview-links: true
+    controls: true
+    footer: " Dyanmic Documents in Quarto"
+brand: false
+slide-level: 2
+---
+
+## {.standout}
+
+Welcome
+
+
+{{< include about_me.qmd >}}
+
+## Why Reproducibility Matters
+
+- Copy–paste workflows → errors, inconsistencies  
+- Hard to update results across a long document  
+- Reproducibility = clarity + automation  
+- **Quarto** integrates text + code + results  
+
+
+## Introduction to Quarto
+
+- An open-source scientific and technical publishing system 
+- Supports **R, Python, Julia**  
+- Multiple output formats: HTML, PDF, Word, Typst, PPTX  
+
+## Why purrr?
+
+- Avoid repetitive copy–paste code
+- Iterate cleanly over variables/datasets
+- tidyverse integration
+- fast
+- type consistent
+
+## Some common [purrr]{.customFont} Functions
+
+::: columns
+::: column
+### Functions
+- `map()`
+- `map2()`
+- `pmap()`
+- `imap()`
+- `walk()`
+:::
+
+::: column
+### Usage
+- `map(.x, .f, ...)`
+- `map2(.x, .y, .f, ...)`
+- `pmap(.l, .f, ...)`
+- `imap(.x, .f, ...)`  
+  *like `map2`, but `.y = names(.x)`*
+- `walk(.x, .f, ...)`
+:::
+:::
+
+## Parameterised Reporting
+- used to create different variations of a document. For example:
+  - Showing results for a specific geographic location.
+  - Running a report that covers a specific time period.
+  - Running a single analysis multiple times for different assumptions.
+
+In Quarto while using R, you can define parameters in the YAML header of your document and then access those parameters within your R code chunks.
+
+````
+---
+params:
+  alpha: 0.1
+  ratio: 0.1
+---
+````
+## 
+![Automation Levels](auto.png)
+
+## How Quarto parameterized reports work
+![Paramterised Report in Action](process.png)
+
+## How to create a parameterized report
+Our roadmap
+
+1. **Setting and using parameters**: Parameters are defined in the YAML header (Knitr) or parameters cell (Jupyter). They are accessed in the report content and code chunks.
+
+2. **Rendering one-at-a-time**: Render reports one at a time by changing parameters manually or using command-line tools.
+
+3. **Rendering all at once**: Automate the rendering of all report variations with a script.
+
+## Define and access parameters
+Parameters are defined and accessed differently depending on whether you use the Knitr or Jupyter engine.
+
+::: {.panel-tabset}
+### Knitr
+````
+---
+params:
+  alpha: 0.1
+  ratio: 0.1
+---
+````
+You can access these parameters in your R code chunks using `params$alpha` and `params$ratio`.
+
+### Jupyter
+````
+
+```{.python}
+#| tags: [parameters]
+
+year = 2023
+producer_id = 'ABC01'
+```
+````
+
+:::
+
+## Rendering
+- Single report with default parameters
+  - use "Ctrl + Shift + K" in RStudio or the "Render" button in VS Code.
+  - change parameters in the YAML header or parameters cell and re-render.
+
+- Can be done without changing the original document
+
+
+## 1. Using the command line 
+````
+quarto render template.qmd -P year:2022 -P species:Adelie
+````
+
+## 2. Using YAML file
+
+create a YAML file (e.g., params.yaml) with the following content:
+
+````
+
+year: 2022
+species: Adelie
+
+````
+Then render the document using:
+````
+quarto render template.qmd --execute-params params.yml
+
+````
+
+## 3. Using Quarto Render function in R
+
+````
+library(quarto)
+quarto::quarto_render(
+  input = "template.qmd",
+  execute_params = list(
+    year = 2022,
+    producer_id = "XYZ01"
+  )
+)
+````
+
+## All variations at once 
+use `quarto_render()` in R or a shell script to automate rendering all variations of your report using `purrr::pmap()`/`purrr::pwalk()`.
+
+## End to End Workflow
+![A full workflow](workflow.png)
+
+## {.standout}
+Parameterized reports are magic! ✨
+
+## References
+1. [Parameterized Quarto Reports (Posit Blog)](https://posit.co/blog/parameterized-quarto/)
+2. [Quarto Docs – Parameters](https://quarto.org/docs/computations/parameters.html)
+3. [Quarto Params Example – Jade Ryan](https://jadeyryan.quarto.pub/rladies-abuja-quarto-params/)
+4. [Video: Quarto Parameters Explained](https://www.youtube.com/watch?v=idgZjnDIS1s)
+
+## Acknowledgement
+- Materials for the slide is borrowed from Jade Ryan's blog post on Quarto parameters.
+- Huge Shout out to Albert Rapp for the *Typst* Template.
+
+##  {.rfit-text }
+{{< fa laptop-code size=10x >}}
+
+[Live Demo]{.huge-font}
+
+## {.rfit-text }
+
+{{< fa question size=10x >}}
+[Questions]{.huge-font}
+
+## {.standout}
+Thank You! 🙏

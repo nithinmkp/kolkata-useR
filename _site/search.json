@@ -1,19 +1,5 @@
 [
   {
-    "objectID": "index.html#welcome",
-    "href": "index.html#welcome",
-    "title": "Dynamic Documents with Quarto and purrr",
-    "section": "Welcome",
-    "text": "Welcome"
-  },
-  {
-    "objectID": "index.html#about-us",
-    "href": "index.html#about-us",
-    "title": "Dynamic Documents with Quarto and purrr",
-    "section": "About Us",
-    "text": "About Us\n\n\n\n\nNithin M\nAssistant Professor, Kerala Agricultural Univeristy &Doctoral Student, Economics\n🎓 Indian Institute of Technology Kharagpur\n @nithin_eco\n @nithinmkp\n write2nithinm@gmail.com\n Website"
-  },
-  {
     "objectID": "index.html#section",
     "href": "index.html#section",
     "title": "Dynamic Documents with Quarto and purrr",
@@ -47,13 +33,6 @@
     "title": "Dynamic Documents with Quarto and purrr",
     "section": "Why purrr?",
     "text": "Why purrr?\n\nAvoid repetitive copy–paste code\nIterate cleanly over variables/datasets\ntidyverse integration\nfast\ntype consistent"
-  },
-  {
-    "objectID": "index.html#some-common-.customfontpurrr-functions",
-    "href": "index.html#some-common-.customfontpurrr-functions",
-    "title": "Dynamic Documents with Quarto and purrr",
-    "section": "Some common .customFont[purrr] Functions",
-    "text": "Some common .customFont[purrr] Functions\nmap\nmap(.x,.f,...)\nmap2\nmap2 (.x,.y,.f,...)\npmap\npmap(.l,.f,...)\nimap\n\nstands for indexed map\nsimillar to map2 except that .y argument is names(.x)"
   },
   {
     "objectID": "index.html#some-common-purrr-functions",
