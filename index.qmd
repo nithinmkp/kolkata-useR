@@ -21,6 +21,8 @@ slide-level: 2
 
 Welcome
 
+## Github Repo
+![](qr.svg){fig.align='center' width=200px}
 
 {{< include about_me.qmd >}}
 
