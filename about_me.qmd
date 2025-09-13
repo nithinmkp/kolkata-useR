@@ -1,0 +1,19 @@
+## About Me 
+
+::: {.columns}
+::: {.column width="30%"}
+<img src="nithin.jpeg" width="150px" style="border-radius: 50%;">
+:::
+::: {.column width="70%"}
+**Nithin M**  
+Assistant Professor, Kerala Agricultural Univeristy &Doctoral Student, Economics
+
+🎓 *Indian Institute of Technology Kharagpur*  
+
+[{{< fa brands twitter >}} @nithin_eco](https://twitter.com/nithin_eco)  
+[{{< fa brands github >}} @nithinmkp](https://github.com/nithinmkp)  
+{{< fa envelope >}} [write2nithinm@gmail.com](mailto:write2nithinm@gmail.com)  
+[{{< fa globe >}} Website](https://nithinmkp.github.io/)  
+:::
+:::
+

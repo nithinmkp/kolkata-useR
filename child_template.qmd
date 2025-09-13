@@ -1,0 +1,66 @@
+## Gapminder for {{country}}
+
+```{r}
+#| echo: false
+#| include: false
+data_filter <- gapminder |>
+filter(continent == params$cont, 
+       country == "{{country}}")
+```
+
+::: {.columns}
+
+::: {.column}
+::: {#fig-gapminder-{{ref_country}}}
+
+```{python}
+#| echo: false
+#| eval: true
+
+py_filter = r.data_filter
+py_filter["log_gdpPercap"] = np.log(py_filter["gdpPercap"])
+py_filter["log_lifeExp"] = np.log(py_filter["lifeExp"])
+# Create scatter plot
+plt.figure(figsize=(10, 6))
+sns.lineplot(
+    data = py_filter,
+    x = "log_gdpPercap",
+    y = "log_lifeExp",
+    hue = "year",
+    palette = "viridis",
+    marker = "o"
+)
+
+# Add labels and title
+plt.xlabel("Log of GDP per Capita")
+plt.ylabel("Log of Life Expectancy")
+```
+scatter plot of Gapminder dataset of {{country}}
+
+:::
+
+:::
+
+::: {.column}
+::: {#tbl-gapminder-{{ref_country}}}
+
+```{r}
+#| echo: false
+data_filter |>
+filter(continent == params$cont, 
+       country == "{{country}}") |>
+       pivot_longer(cols = -c(1:3,7)) |>
+group_by(name) |>
+summarize(mean = mean(value, na.rm = TRUE),
+          sd = sd(value, na.rm = TRUE)) |>
+gt()
+```
+Summary statistics of Gapminder dataset of {{country}}
+
+:::
+:::
+
+:::
+
+@tbl-gapminder-{{ref_country}} shows the summary statistics for  {{country}} while @fig-gapminder-{{ref_country}} shows the scatter plot
+

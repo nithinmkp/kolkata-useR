@@ -1,0 +1,89 @@
+---
+title: "Penguins"
+format: 
+  html: default
+echo: false
+message: false
+warning: false
+    
+---
+
+```{r}
+#| include: false
+pacman::p_load(glue,dplyr,ggplot2,palmerpenguins,gghighlight,showtext,quarto,purrr,tidyr)
+
+```
+
+
+```{r}
+#| include: false
+# Define species color schemes
+
+species_colors <- data.frame(
+  species = c("Adelie", "Chinstrap", "Gentoo"),
+  primary = c("#FF6B35", "#7209B7", "#0D2C54"),
+  secondary = c("#004E89", "#F72585", "#339989"),
+  stringsAsFactors = FALSE
+)
+
+color <- case_when(params$species == "Adelie" ~ "#FF6600",
+                   params$species == "Gentoo" ~ "#047075",
+                   params$species == "Chinstrap" ~ "#C25BCC")
+
+current_colors <- species_colors[species_colors$species == params$species, ]
+sidebar_color <- current_colors$primary
+header_color <- current_colors$secondary
+
+```
+
+
+
+  
+The `r params$species` penguins can be found on the island(s) of: `r glue_collapse(penguins |> filter(species == params$species) |> count(island) |> pluck(1), sep = ", ", last = ", and ")`.
+
+# Mass
+
+
+```{r table}
+penguins %>%  
+  filter(species == params$species & !is.na(sex)) %>% 
+  group_by(species, sex) |> 
+  summarize(mass = round(mean(body_mass_g, na.rm = TRUE), 1))
+```
+
+
+# Bills
+
+```{r scatter}
+#| fig-height: 3
+#| fig-align: center
+library(showtext)
+font_add_google(name = "Prompt", 
+                family = "prompt")
+showtext_auto()
+penguin_theme <- function () { 
+  theme_linedraw(base_size=11, base_family="prompt") %+replace% 
+    theme(
+      panel.background  = element_blank(),
+      plot.background = element_rect(fill = "transparent", color = NA), 
+      axis.ticks = element_blank(),
+      panel.grid.major = element_line(color = "grey90", size = 0.3), 
+      panel.grid.minor = element_blank(),
+      axis.text.x = element_text(size = 13),
+      axis.text.y = element_text(size = 13)
+    )
+}
+
+penguins |> 
+  drop_na() |>
+        ggplot(aes(x = bill_length_mm, y = bill_depth_mm, color = species))  +
+        geom_point(size = 3) +
+        labs(x = "Bill length in mm", y = "Bill depth in mm") +
+        gghighlight(species == params$species)+
+        penguin_theme()+
+        gghighlight(species==params$species)+
+        scale_color_manual(values =c("Adelie"="#FF6600",
+                                     "Gentoo"="#047075",
+                                     "Chinstrap"="#C25BCC") )+
+        geom_point(size=3)
+```

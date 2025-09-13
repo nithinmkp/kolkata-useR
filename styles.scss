@@ -1,0 +1,70 @@
+/*-- scss:defaults --*/
+// Define custom variables here if needed
+
+/*-- scss:rules --*/
+// Custom Colors
+$my-coral:#903030;
+// Custom font size for large text
+.huge-font {
+  font-size: 90px !important;
+}
+
+.huge-font-r {
+  font-size: inherit; // Inherits from .huge-font if applied within its scope
+  color: red;
+}
+
+/* High-contrast background for standout slides */
+.standout {
+  background-color: #1c4650 !important; // Dark grey background
+  color: #ffffff !important; // White text
+  text-align: center;
+  font-size: 120px;
+  font-weight: bold;
+  padding: 40px;
+}
+
+/* Ensure embedded iframes look good */
+.reveal iframe {
+  border: none;
+  width: 90%;
+  height: 500px;
+}
+
+.reveal .progress{ /* Change progress bar color to red */
+  height: 1.75%;
+  color: #1c4650;
+}
+
+.reveal .standout + .progress,
+.reveal .slide.standout ~ .progress {
+  background-color: #1c4650 !important; /* Standout slide color */
+  color: #ffffff !important; /* White progress bar */
+}
+.custom-footer {
+  display: flex;
+  width: 100%;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.footer-left {
+  text-align: left;
+  flex: 1;
+}
+
+.footer-center {
+  text-align: center;
+  flex: 1;
+}
+
+.title-slide {
+  background-image: url("k-user.jpg"), url("quarto.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: left 2em bottom 2em, right 2em bottom 2em !important;
+  background-size: 150px, 150px !important;
+}
+
+.customFont{
+        color: $my-coral;
+}

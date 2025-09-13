@@ -1,0 +1,129 @@
+---
+title: Gapminder data continent wise analysis- `r params$cont`
+author:
+  - Nithin M
+format: 
+  html: 
+    keep-md: true
+  beamer: default
+  pdf: default
+params:
+  cont: Americas
+engine: knitr
+slide-level: 2
+  
+fontsize: 12pt
+---
+
+```{r}
+#| label: R-setup
+#| echo: false
+#| include: false
+pacman::p_load(gapminder, tidyverse, gt, reticulate, flextable, renv)
+renv::use_python(name = ".venv")
+np <- import("numpy", convert = FALSE)
+pd <- import("pandas", convert = FALSE)
+sns <- import("seaborn", convert = FALSE)
+plt <- import("matplotlib.pyplot", convert = FALSE)
+
+```
+
+```{python}
+#| label: setup
+#| echo: false
+#| eval: true
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+```
+
+# Country Wise Analysis
+
+```{r}
+#| results: hide
+#| echo: false
+#| include: false
+#| label: child_knit
+gapminder <- gapminder |>
+    mutate(
+        ref_country = if_else(
+            str_detect(country, " "),
+            str_replace_all(country, "[, .]+", "_"),
+            country
+        ),
+        year = as.factor(year)
+    )
+
+countries <- gapminder |>
+    filter(continent == params$cont) |>
+    distinct(country) |>
+    pull()
+
+ref_countries <- gapminder |>
+    filter(continent == params$cont) |>
+    distinct(ref_country) |>
+    pull()
+
+
+expanded_child <- map2(
+    countries,
+    ref_countries,
+    function(country, ref_country) {
+        knitr::knit_expand(
+            "child_template.qmd",
+            country = country,
+            ref_country = ref_country
+        )
+    }
+) |>
+    flatten()
+
+parsed_child <- knitr::knit_child(text = unlist(expanded_child))
+```
+
+`r parsed_child`
+
+## `r params$cont` snapshot
+```{r}
+#| echo: false
+library(broom)
+gapminder |>
+    nest(.by = continent) |>
+    mutate(lin_mod = map(data, ~ lm(lifeExp ~ gdpPercap, data = .x))) |>
+    mutate(coef = map(lin_mod, tidy)) |>
+    unnest(coef) |>
+    select(-c(data, lin_mod)) |>
+    pivot_wider(names_from = term, values_from = -c(continent)) |>
+    rename_with(~ gsub("[()]", "_", .)) |>
+    select(-starts_with("term_")) |>
+    gt() |>
+    fmt_number(columns = -c(continent), decimals = 2) |>
+    tab_spanner(
+        label = "Estimate",
+        columns = c('estimate__Intercept_', 'estimate_gdpPercap')
+    ) |>
+    tab_spanner(
+        label = "Std. Error",
+        columns = c('std.error__Intercept_', 'std.error_gdpPercap')
+    ) |>
+    tab_spanner(
+        label = "Statistic",
+        columns = c('statistic__Intercept_', 'statistic_gdpPercap')
+    ) |>
+    tab_spanner(
+        label = "P-value",
+        columns = c('p.value__Intercept_', 'p.value_gdpPercap')
+    ) |>
+    cols_label(
+        estimate__Intercept_ = "Intercept",
+        estimate_gdpPercap = "gdpPercap",
+        std.error__Intercept_ = "Intercept",
+        std.error_gdpPercap = "gdpPercap",
+        statistic__Intercept_ = "Intercept",
+        statistic_gdpPercap = "gdpPercap",
+        p.value__Intercept_ = "Intercept",
+        p.value_gdpPercap = "gdpPercap"
+    )
+```

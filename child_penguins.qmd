@@ -1,0 +1,47 @@
+## Analysis for {{island}}
+
+
+```{r}
+#| echo: false
+peng_data <- penguins |> 
+    filter(species == params$species & island =="{{island}}")  |> 
+    drop_na()
+
+```
+
+::: {#tbl-penguins-{{island}}}
+```{r}
+#| echo: false
+modelsummary::datasummary(sex*(body_mass_g + bill_length_mm + bill_depth_mm)~(N+mean+sd), data=peng_data)
+
+```
+Summary statistics for penguins on {{island}}
+:::
+
+
+::: {#fig-penguins-{{island}}}
+```{r}
+#| echo: false
+#| label: penguins-{{island}}
+ggplot(peng_data, aes(x=bill_length_mm, y=bill_depth_mm,fill = sex)) +
+  geom_point(shape=21, size=3, alpha=0.7) +
+  labs(
+    x = "Bill Length (mm)",
+    y = "Bill Depth (mm)",
+  )
+```
+Scatter plot of bill dimensions for penguins on {{island}}
+:::
+
+The summary statistics of penguins on {{island}} is given in @tbl-penguins-{{island}} and a scatter plot of bill dimensions is shown in @fig-penguins-{{island}}.
+
+Next, we fit a linear model to predict bill depth from bill length and sex of the penguins on {{island}}. The results are summarized below in @tbl-model-{{island}}.
+
+::: {#tbl-model-{{island}}}
+```{r}
+#| echo: false
+model <- lm(bill_depth_mm ~ bill_length_mm+sex, data=peng_data)
+modelsummary(model)
+```
+Regression results for penguins on {{island}}
+:::

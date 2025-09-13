@@ -1,0 +1,112 @@
+---
+title: "Penguins"
+format: 
+  html: default
+  typst:
+    template-partials:  
+      - typst-show.typ
+      - typst-template.typ
+params:
+  species: Gentoo
+echo: false
+message: false
+warning: false
+author: Nithin
+    
+---
+```{r}
+#| include: false
+library(glue)
+library(tidyverse)
+library(palmerpenguins)
+library(kableExtra)
+library(gghighlight)
+library(quarto)
+library(modelsummary)
+
+```
+```{r}
+#| output: asis
+#| echo: false
+write_yaml_metadata_block(params = list(species = params$species))
+
+# cat(sprintf("\n\n---\nspecies: %s\n---\n\n", params[["species"]]))
+```
+```{r}
+#| include: false
+# Define species color schemes
+
+species_colors <- data.frame(
+  species = c("Adelie", "Chinstrap", "Gentoo"),
+  primary = c("#FF6B35", "#7209B7", "#0D2C54"),
+  secondary = c("#004E89", "#F72585", "#339989"),
+  stringsAsFactors = FALSE
+)
+
+color <- case_when(params$species == "Adelie" ~ "#FF6600",
+                   params$species == "Gentoo" ~ "#047075",
+                   params$species == "Chinstrap" ~ "#C25BCC")
+
+current_colors <- species_colors[species_colors$species == params$species, ]
+sidebar_color <- current_colors$primary
+header_color <- current_colors$secondary
+
+```
+
+
+```{=typst}
+
+#set page(background: place(
+        top,
+        rect(
+            width: 2cm,
+            height: 100%,
+            fill: rgb(`r shQuote(sidebar_color)`)
+        )
+    ),
+    footer: context [
+  *Design: #text(fill: rgb(`r shQuote(header_color)`))[{{< meta author >}}]*
+  #h(1fr)
+  #counter(page).display(
+    "1/1",
+    both: true,
+  )
+]
+    )
+#h(-1cm)
+    #box(
+        fill: rgb(`r shQuote(header_color)`),
+        width: 0.4fr,
+        inset: 10pt,
+    )[
+        #text(size: 2.5em, fill: white)[*{{< meta title >}}*]
+    ]
+
+*#text(size: 1.2em)[Species: `{r} params[["species"]]`]* 
+ 
+```
+
+The `r params$species` penguins can be found on the island(s) of: `r glue_collapse(penguins |> filter(species == params$species) |> count(island) |> pluck(1), sep = ", ", last = ", and ")`. The total number of `r params$species` penguins in the dataset is `r penguins |> filter(species == params$species) |> nrow()`.
+
+Let us analyse the `r params$species` penguins by island. The results for each island are shown below.
+
+
+```{r}
+#| include: false
+
+islands <- penguins |> filter(species == params$species) |> distinct(island) |> arrange(island) |> pull()
+
+expanded <- map(islands, function(island){
+    knitr::knit_expand(
+        "child_penguins.qmd",
+        island=island
+    )
+
+}
+)  |> 
+    flatten()
+parsed_child <- knitr::knit_child(text = unlist(expanded))
+```
+
+`r parsed_child`
+
