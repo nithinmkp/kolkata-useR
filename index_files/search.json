@@ -1,0 +1,170 @@
+[
+  {
+    "objectID": "index.html#section",
+    "href": "index.html#section",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "",
+    "text": "Welcome"
+  },
+  {
+    "objectID": "index.html#about-me",
+    "href": "index.html#about-me",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "About Me",
+    "text": "About Me\n\n\n\n\nNithin M\nAssistant Professor, Kerala Agricultural Univeristy &Doctoral Student, Economics\n🎓 Indian Institute of Technology Kharagpur\n @nithin_eco\n @nithinmkp\n write2nithinm@gmail.com\n Website"
+  },
+  {
+    "objectID": "index.html#why-reproducibility-matters",
+    "href": "index.html#why-reproducibility-matters",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "Why Reproducibility Matters",
+    "text": "Why Reproducibility Matters\n\nCopy–paste workflows → errors, inconsistencies\n\nHard to update results across a long document\n\nReproducibility = clarity + automation\n\nQuarto integrates text + code + results"
+  },
+  {
+    "objectID": "index.html#introduction-to-quarto",
+    "href": "index.html#introduction-to-quarto",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "Introduction to Quarto",
+    "text": "Introduction to Quarto\n\nAn open-source scientific and technical publishing system\nSupports R, Python, Julia\n\nMultiple output formats: HTML, PDF, Word, Typst, PPTX"
+  },
+  {
+    "objectID": "index.html#why-purrr",
+    "href": "index.html#why-purrr",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "Why purrr?",
+    "text": "Why purrr?\n\nAvoid repetitive copy–paste code\nIterate cleanly over variables/datasets\ntidyverse integration\nfast\ntype consistent"
+  },
+  {
+    "objectID": "index.html#some-common-purrr-functions",
+    "href": "index.html#some-common-purrr-functions",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "Some common purrr Functions",
+    "text": "Some common purrr Functions\n\n\nFunctions\n\nmap()\nmap2()\npmap()\nimap()\nwalk()\n\n\nUsage\n\nmap(.x, .f, ...)\nmap2(.x, .y, .f, ...)\npmap(.l, .f, ...)\nimap(.x, .f, ...)\nlike map2, but .y = names(.x)\nwalk(.x, .f, ...)"
+  },
+  {
+    "objectID": "index.html#parameterised-reporting",
+    "href": "index.html#parameterised-reporting",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "Parameterised Reporting",
+    "text": "Parameterised Reporting\n\nused to create different variations of a document. For example:\n\nShowing results for a specific geographic location.\nRunning a report that covers a specific time period.\nRunning a single analysis multiple times for different assumptions.\n\n\nIn Quarto while using R, you can define parameters in the YAML header of your document and then access those parameters within your R code chunks.\n---\nparams:\n  alpha: 0.1\n  ratio: 0.1\n---"
+  },
+  {
+    "objectID": "index.html#section-1",
+    "href": "index.html#section-1",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "",
+    "text": "Automation Levels"
+  },
+  {
+    "objectID": "index.html#how-quarto-parameterized-reports-work",
+    "href": "index.html#how-quarto-parameterized-reports-work",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "How Quarto parameterized reports work",
+    "text": "How Quarto parameterized reports work\n\nParamterised Report in Action"
+  },
+  {
+    "objectID": "index.html#how-to-create-a-parameterized-report",
+    "href": "index.html#how-to-create-a-parameterized-report",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "How to create a parameterized report",
+    "text": "How to create a parameterized report\nOur roadmap\n\nSetting and using parameters: Parameters are defined in the YAML header (Knitr) or parameters cell (Jupyter). They are accessed in the report content and code chunks.\nRendering one-at-a-time: Render reports one at a time by changing parameters manually or using command-line tools.\nRendering all at once: Automate the rendering of all report variations with a script."
+  },
+  {
+    "objectID": "index.html#define-and-access-parameters",
+    "href": "index.html#define-and-access-parameters",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "Define and access parameters",
+    "text": "Define and access parameters\nParameters are defined and accessed differently depending on whether you use the Knitr or Jupyter engine.\n\nKnitrJupyter\n\n\n---\nparams:\n  alpha: 0.1\n  ratio: 0.1\n---\nYou can access these parameters in your R code chunks using params$alpha and params$ratio.\n\n\n\n```{.python}\n#| tags: [parameters]\n\nyear = 2023\nproducer_id = 'ABC01'\n```"
+  },
+  {
+    "objectID": "index.html#rendering",
+    "href": "index.html#rendering",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "Rendering",
+    "text": "Rendering\n\nSingle report with default parameters\n\nuse “Ctrl + Shift + K” in RStudio or the “Render” button in VS Code.\nchange parameters in the YAML header or parameters cell and re-render.\n\nCan be done without changing the original document"
+  },
+  {
+    "objectID": "index.html#using-the-command-line",
+    "href": "index.html#using-the-command-line",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "1. Using the command line",
+    "text": "1. Using the command line\nquarto render template.qmd -P year:2022 -P species:Adelie"
+  },
+  {
+    "objectID": "index.html#using-yaml-file",
+    "href": "index.html#using-yaml-file",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "2. Using YAML file",
+    "text": "2. Using YAML file\ncreate a YAML file (e.g., params.yaml) with the following content:\n\nyear: 2022\nspecies: Adelie\n\nThen render the document using:\nquarto render template.qmd --execute-params params.yml"
+  },
+  {
+    "objectID": "index.html#using-quarto-render-function-in-r",
+    "href": "index.html#using-quarto-render-function-in-r",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "3. Using Quarto Render function in R",
+    "text": "3. Using Quarto Render function in R\nlibrary(quarto)\nquarto::quarto_render(\n  input = \"template.qmd\",\n  execute_params = list(\n    year = 2022,\n    producer_id = \"XYZ01\"\n  )\n)"
+  },
+  {
+    "objectID": "index.html#all-variations-at-once",
+    "href": "index.html#all-variations-at-once",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "All variations at once",
+    "text": "All variations at once\nuse quarto_render() in R or a shell script to automate rendering all variations of your report using purrr::pmap()/purrr::pwalk()."
+  },
+  {
+    "objectID": "index.html#end-to-end-workflow",
+    "href": "index.html#end-to-end-workflow",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "End to End Workflow",
+    "text": "End to End Workflow\n\nA full workflow"
+  },
+  {
+    "objectID": "index.html#section-2",
+    "href": "index.html#section-2",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "",
+    "text": "Parameterized reports are magic! ✨"
+  },
+  {
+    "objectID": "index.html#references",
+    "href": "index.html#references",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "References",
+    "text": "References\n\nParameterized Quarto Reports (Posit Blog)\nQuarto Docs – Parameters\nQuarto Params Example – Jade Ryan\nVideo: Quarto Parameters Explained"
+  },
+  {
+    "objectID": "index.html#acknowledgement",
+    "href": "index.html#acknowledgement",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "Acknowledgement",
+    "text": "Acknowledgement\n\nMaterials for the slide is borrowed from Jade Ryan’s blog post on Quarto parameters.\nHuge Shout out to Albert Rapp for the Typst Template."
+  },
+  {
+    "objectID": "index.html#section-3",
+    "href": "index.html#section-3",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "",
+    "text": "Live Demo"
+  },
+  {
+    "objectID": "index.html#section-4",
+    "href": "index.html#section-4",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "",
+    "text": "Questions"
+  },
+  {
+    "objectID": "index.html#section-5",
+    "href": "index.html#section-5",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "",
+    "text": "Thank You! 🙏"
+  },
+  {
+    "objectID": "index.html#github-repo",
+    "href": "index.html#github-repo",
+    "title": "Dynamic Documents with Quarto and purrr",
+    "section": "Github Repo",
+    "text": "Github Repo"
+  }
+]
