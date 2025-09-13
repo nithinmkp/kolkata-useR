@@ -1,6 +1,5 @@
 ---
 format: 
-  html: default
   pdf: 
     geometry:
       - top=0.75in
@@ -8,19 +7,16 @@ format:
       - bottom=0.75in
       - left=0.75in
       - heightrounded
-    number-sections: true
     include-in-header: 
       - "preamble.tex"
     toc: false
-mainfont: Lato
-monofont: Roboto
 editor: source
 execute:
   warning: false
   echo: false
 params:
-  species: 'Adelie'
-  year: 2009
+  species: Gentoo
+  year: 2007
 ---
 \sffamily
 \thispagestyle{empty}
@@ -36,7 +32,7 @@ params:
 
 knitr::opts_chunk$set(echo = FALSE)
 options(knitr.kable.NA = '')
-pacman::p_load(palmerpenguins, tidyverse, kableExtra, gghighlight, glue)
+pacman::p_load(palmerpenguins, tidyverse, kableExtra, gghighlight, glue,purrr)
 color <- case_when(params$species == "Adelie" ~ "#FF6600",
                    params$species == "Gentoo" ~ "#047075",
                    params$species == "Chinstrap" ~ "#C25BCC")

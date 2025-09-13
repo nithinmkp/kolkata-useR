@@ -166,5 +166,12 @@
     "title": "Dynamic Documents with Quarto and purrr",
     "section": "Github Repo",
     "text": "Github Repo"
+  },
+  {
+    "objectID": "Adelie-2007-report.html",
+    "href": "Adelie-2007-report.html",
+    "title": "Mass",
+    "section": "",
+    "text": "The Adelie penguins can be found on the island(s) of: Biscoe, Dream, and Torgersen. In 2007 there were 50 penguins measured.\n\nMass\n\n\n\n\n\nSpecies\nSex\nAvg Mass (g)\n\n\n\n\nAdelie\nfemale\n3389.8\n\n\nAdelie\nmale\n4038.6\n\n\nChinstrap\nfemale\n3569.2\n\n\nChinstrap\nmale\n3819.2\n\n\nGentoo\nfemale\n4618.8\n\n\nGentoo\nmale\n5552.9\n\n\n\n\n\n\n\nBills"
   }
 ]

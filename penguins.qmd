@@ -7,7 +7,7 @@ format:
       - typst-show.typ
       - typst-template.typ
 params:
-  species: Adelie
+  species: Gentoo
 echo: false
 message: false
 warning: false
@@ -22,7 +22,7 @@ warning: false
 # library(kableExtra)
 # library(gghighlight)
 # library(quarto)
-pacman::p_load(glue,dplyr,ggplot2,palmerpenguins,gghighlight,showtext,quarto,purrr,tidyr)
+pacman::p_load(glue,dplyr,ggplot2,palmerpenguins,gghighlight,showtext,quarto,purrr,tidyr,tinytable)
 
 ```
 ```{r}
@@ -39,8 +39,8 @@ write_yaml_metadata_block(params = list(species = params$species))
 
 species_colors <- data.frame(
   species = c("Adelie", "Chinstrap", "Gentoo"),
-  primary = c("#FF6B35", "#7209B7", "#0D2C54"),
-  secondary = c("#004E89", "#F72585", "#339989"),
+  primary = c("#FF6B35", "#7209B7", "#047075"),
+  secondary = c("#004E89", "#A8A83B", "#EDBF07"),
   stringsAsFactors = FALSE
 )
 
@@ -65,17 +65,28 @@ header_color <- current_colors$secondary
             fill: rgb(`r shQuote(sidebar_color)`)
         )
     ),
+    foreground: place(
+        top+right,
+        dx: -1.9cm, dy: 0.7cm, image("penguins.png",width: 4cm)
     )
+)
 #h(-1cm)
     #box(
         fill: rgb(`r shQuote(header_color)`),
-        width: 0.4fr,
+        width: 13cm,
         inset: 10pt,
     )[
         #text(size: 2.5em, fill: white)[*{{< meta title >}}*]
     ]
 
 *#text(size: 1.2em)[Species: `{r} params[["species"]]`]* 
+#show heading.where(level: 1): it => {
+  set text(fill: rgb(`r shQuote(color)`)) // Set title color
+  it // Render the heading itself
+  v(-0.3cm)
+  line(length: 100%, stroke: 1pt +rgb(`r shQuote(color)`))
+  v(0.5cm)
+}
  
 ```
 
@@ -83,15 +94,19 @@ header_color <- current_colors$secondary
 The `r params$species` penguins can be found on the island(s) of: `r glue_collapse(penguins |> filter(species == params$species) |> count(island) |> pluck(1), sep = ", ", last = ", and ")`.
 
 # Mass
-
-
+::: {.align ="center"}
 ```{r table}
 penguins %>%  
-  filter(species == params$species & !is.na(sex)) %>% 
+  filter(!is.na(sex)) %>% 
   group_by(species, sex) |> 
-  summarize(mass = round(mean(body_mass_g, na.rm = TRUE), 1))
+  summarize(mass = round(mean(body_mass_g, na.rm = TRUE), 1)) |> 
+  tt(width = 0.7)  |> 
+  setNames(c("Species","Sex","Average Mass (g)")) |>
+  style_tt(i=0,bold=TRUE)  |> 
+  style_tt(align="c") |> 
+  style_tt(species == params$species, color = color, bold=TRUE) 
 ```
-
+:::
 
 # Bills
 
